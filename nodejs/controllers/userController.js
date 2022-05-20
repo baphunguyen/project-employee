@@ -45,7 +45,7 @@ async function updateUser (req, res) {
     const user = req.body.user;
     if (!user) return res.status(200).send({message: 'User is null'});
     const update = await models.userModel.update(user);
-    if (update === true) {
+    if (update) {
       return res.status(200).send({message: "Update Success"});
     } else {
       return res.status(200).send({message: "Update UnSuccess"});
@@ -68,9 +68,45 @@ async function deleteUser (req, res) {
 
 async function getallUser (req, res) {
   try {
-    const user = await models.userModel.getAll();
-    if (!user) return res.status(200).send({message: 'Data ís empty'});
-    return res.status(200).send({data: user});
+    const page = req.params.page;
+    const userList = await models.userModel.getAll();
+    if (userList.length === 0) return res.status(200).send({message: 'Data ís empty'});
+    const userPerPage = await models.userModel.getDataPerPage(page-1);
+    return res.status(200).send({user: {
+        totalData: userList.length,
+        _limit: 10,
+        _totalPage: userList.length%10 === 0? Math.floor(userList.length/10): Math.floor(userList.length/10)+1,
+        _currentPage: page,
+        data: userPerPage,
+      }});
+  } catch (e) {
+    return res.send(e.message);
+  }
+}
+
+async function changePassword (req, res) {
+  try {
+    const user = req.body.user;
+    if (!user.password || !user.new_password || !user.confirm_password)
+      return res.status(200).send({message: 'Password and New Password is required'});
+    if (user.new_password !== user.confirm_password) return res.status(200).send({message: 'NewPassword and Confirm Password is not match'});
+    const isChange = await models.userModel.changePassword(user.id, user.password, user.new_password);
+    if (isChange) return res.status(200).send({message: 'Change Password Success'});
+    return res.status(200).send({message: 'Change Password UnSuccess'});
+  } catch (e) {
+    return res.send(e.message);
+  }
+}
+
+async function forgotPassword (req, res) {
+  try {
+    const user = req.body.user;
+    if (!user.email || !user.new_password || !user.confirm_password)
+      return res.status(200).send({message: 'Email and New Password is required'});
+    if (user.new_password !== user.confirm_password) return res.status(200).send({message: 'NewPassword and Confirm Password is not match'});
+    const isChange = await models.userModel.forgotPassword(user.email, user.new_password);
+    if (isChange) return res.status(200).send({message: 'Update Password Success'});
+    return res.status(200).send({message: 'Update Password UnSuccess'});
   } catch (e) {
     return res.send(e.message);
   }
@@ -93,7 +129,9 @@ const userController = {
   updateUser: updateUser,
   deleteUser: deleteUser,
   getallUser: getallUser,
-  getUserById: getUserById
+  getUserById: getUserById,
+  changePassword: changePassword,
+  forgotPassword: forgotPassword
 }
 
 module.exports = userController;

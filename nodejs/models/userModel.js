@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const connection = require('./db')
+const knex = require('./db')
 const md5 = require('md5')
 
 const userValidation = (data) => {
@@ -19,8 +19,8 @@ const userValidation = (data) => {
 const userAPI = {
   isEmail: async (email) => {
     try {
-      const [rows] = await connection.execute("SELECT * FROM user WHERE email=?", [email]);
-      return rows[0];
+      const data = await knex('user').select().where('email', email);
+      return data[0];
     } catch (e) {
       return e.message;
     }
@@ -38,7 +38,7 @@ const userAPI = {
     try {
       delete user.confirm_password;
       user.password = md5(user.password);
-      await connection.query("INSERT INTO user SET ?", [user]);
+      await knex('user').insert(user);
       return true;
     } catch (e) {
       return e.message;
@@ -46,41 +46,74 @@ const userAPI = {
   },
   update: async (user) => {
     try {
-      const queryParams = [user.fullname, user.age, user.gender, user.dateofbirth, user.address, user.id];
-      const sql = "UPDATE user SET fullname=?, age=?, gender=?, dateofbirth=?, address=? WHERE id=?"
-      await connection.query(sql, queryParams);
-      return true;
+      const updateData = await knex('user').where('id', user.id).update({
+        fullname: user.fullname,
+        age: user.age,
+        gender: user.gender,
+        dateofbirth: user.dateofbirth,
+        address: user.address
+      })
+      if (updateData) return true;
+      return false;
+    } catch (e) {
+      return e.message;
+    }
+  },
+  changePassword: async (id, password, new_password) => {
+    try {
+      const user = await knex('user').select().where('id', id);
+      if (!user[0]) return false;
+      if (user[0].password !== md5(password)) return false;
+      const changeData = await knex('user').where('id', id).update('password', md5(new_password));
+      if (changeData) return true;
+      return false;
+    } catch (e) {
+      return e.message;
+    }
+  },
+  forgotPassword: async (email, password) => {
+    try {
+      const user = await knex('user').select().where('email', email);
+      if (!user[0]) return false;
+      const forgotPass = await knex('user').where('email', email).update('password', md5(password));
+      if (forgotPass) return true;
+      return false;
     } catch (e) {
       return e.message;
     }
   },
   getAll: async () => {
     try {
-      const sql = 'SELECT * FROM user';
-      const [rows] = await connection.execute(sql);
-      return rows;
+      const data = await knex('user').select();
+      return data;
+    } catch (e) {
+      return e.message;
+    }
+  },
+  getDataPerPage: async (page) => {
+    try {
+      const data = await knex('user').select().limit(10).offset(10*page);
+      return data;
     } catch (e) {
       return e.message;
     }
   },
   getById: async (id) => {
     try {
-      const sql = 'SELECT * FROM user WHERE id=?';
-      const [rows] = await connection.execute(sql, [id]);
-      return rows;
+      const data = await knex('user').select().where('id', id);
+      return data[0];
     } catch (e) {
       return e.message;
     }
   },
   remove: async (id) => {
     try {
-      const sql = 'DELETE FROM user WHERE id=?';
-      const [result] = await connection.execute(sql, [id]);
-      if (result.affectedRows) {
-        await connection.execute('UPDATE user SET id=id-1 WHERE id>?', [id]);
-        return true;
-      }
-      else return false;
+      const data = await knex('user').where('id', id).del();
+      if (data) {
+        const updateData = await knex('user').where('id', '>', id).update('id', knex.raw('id-1'));
+        if (updateData >= 0) return true;
+        return false;
+      } else return false;
     } catch (e) {
       return e.message;
     }

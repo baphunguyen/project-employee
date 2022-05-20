@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {Avatar, Grid, Paper, TextField, Button, Typography, Link, Alert} from "@mui/material";
+import {Avatar, Grid, Paper, TextField, Button, Alert} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Login(props) {
+function ForgotPassword(props) {
   const paperStyle = {padding: '20px', height: '500px', width: '350px', margin: '120px auto'}
   const avatarStyle = {backgroundColor: '#0995bf', marginTop: '15px'}
   const btnStyle = {margin: '20px 0px'}
@@ -13,22 +13,19 @@ function Login(props) {
   const {handleSubmit, register} = useForm({
     defaultValues: {
       email: '',
-      password: ''
+      new_password: '',
+      confirm_password: ''
     }
   })
   const [message, setMessage] = useState('');
 
   const onSubmit = (data) => {
-    axios.post('http://localhost:3002/user/login', {user: data})
+    axios.put('http://localhost:3002/user/forgotpassword', {user: data})
       .then((res) => {
-        setMessage(res.data.message);
-        if (res.data.data) {
-          localStorage.setItem('isAuth', JSON.stringify({
-            data: res.data.data,
-            authed: true,
-            expiry: new Date().getTime() + 300000
-          }))
-          navigate("/home");
+        if (res.data.message !== 'Update Password Success') {
+          setMessage(res.data.message);
+        } else {
+          navigate("/");
         }
       })
       .catch(err => console.log(err));
@@ -39,30 +36,18 @@ function Login(props) {
       <Paper elevation={10} style={paperStyle}>
         <Grid align='center'>
           <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
-          <h2>Sign In</h2>
+          <h2>Forgot Password</h2>
         </Grid>
         {message && <Alert severity='error'>{message}</Alert>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField variant='standard' label='Email' placeholder='Enter Email' type='email' margin='normal' fullWidth required {...register('email')}/>
-          <TextField variant='standard' label='Password' placeholder='Enter Password' margin='normal' type='password' fullWidth required {...register('password')}/>
-          <Button variant='contained' type='submit' color='primary' fullWidth style={btnStyle}>Sign in</Button>
+          <TextField variant='standard' label='New Password' placeholder='Enter New Password' type='password' margin='normal' fullWidth required {...register('new_password')}/>
+          <TextField variant='standard' label='Confirm New Password' placeholder='Enter Confirm New Password' type='password' margin='normal' fullWidth required {...register('confirm_password')}/>
+          <Button variant='contained' type='submit' color='primary' fullWidth style={btnStyle}>Submit</Button>
         </form>
-        <Grid>
-          <Typography align='right'>
-            <Link href='/forgotpassword'>
-              Forgot Password ?
-            </Link>
-          </Typography>
-          <Typography align='left' style={{marginTop: '8px'}}>
-            Do you have an account ?
-            <Link href='/signup'>
-              Sign up
-            </Link>
-          </Typography>
-        </Grid>
       </Paper>
     </Grid>
   );
 }
 
-export default Login;
+export default ForgotPassword;

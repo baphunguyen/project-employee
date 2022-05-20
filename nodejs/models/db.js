@@ -1,6 +1,5 @@
-const mysql = require('mysql2');
-const knex = require('knex')({
-  client: 'mysql',
+module.exports = require('knex')({
+  client: 'mysql2',
   connection: {
     host: 'localhost',
     port: '3306',
@@ -9,12 +8,3 @@ const knex = require('knex')({
     database: 'my_database'
   }
 })
-
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'baphu123',
-  database: 'my_database'
-});
-
-module.exports = pool.promise();

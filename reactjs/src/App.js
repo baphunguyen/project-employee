@@ -1,17 +1,32 @@
 import './App.css';
-import FormList from "./Component/FormList";
-import DialogForm from "./Component/DialogForm";
-// import Register from "./Pages/Register";
-import {Login, Home} from './Pages'
+import {Login, Home, ChangePassword, ForgotPassword, SignUp} from './Pages'
+import {PrivateRoute} from "./Component";
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
 function App() {
   return (
-    <div className="App">
-      {/*<Login />*/}
-      {/*<Login />*/}
-      <Home />
-      {/*<DialogForm />*/}
-      {/*<FormList/>*/}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login />}/>
+        <Route path='/home' element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }/>
+        <Route path='/changepassword' element={
+          <PrivateRoute>
+            <ChangePassword />
+          </PrivateRoute>
+        }/>
+        <Route path='/signup' element={<SignUp />}/>
+        <Route path='/forgotpassword' element={<ForgotPassword />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
