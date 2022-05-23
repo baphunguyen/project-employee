@@ -4,7 +4,6 @@ const md5 = require('md5')
 async function loginUser (req, res) {
   try {
     const user = req.body.user;
-    if (!user) return res.status(204).send({message: 'User is required'});
     const rowsEmail = await models.userModel.isEmail(user.email);
     if (rowsEmail === undefined) return res.status(200).send({message: 'Email is not available'})
     const hashPassword = md5(user.password);
@@ -17,23 +16,14 @@ async function loginUser (req, res) {
 
 async function createUser (req, res) {
   try {
-    const user = req.body.user;
-    if (!user) {
-      return res.status(400).send({message: "Emty User"});
-    }
     const rowsEmail = await models.userModel.isEmail(user.email);
     if (rowsEmail !== undefined) return res.status(200).send({message: 'Email is used'})
     else {
-      const userErrorValidate = await models.userModel.isUser(user);
-      if (!userErrorValidate) {
-        const countData = await models.userModel.getAll();
-        user.id = countData.length + 1;
-        const isAddData = await models.userModel.create(user);
-        if (isAddData) return res.status(200).send({message: 'Create Success'});
-        else return res.status(200).send({message: 'Create UnSuccess'})
-      } else {
-        return res.status(200).send({message: userErrorValidate});
-      }
+      const countData = await models.userModel.getAll();
+      user.id = countData.length + 1;
+      const isAddData = await models.userModel.create(user);
+      if (isAddData) return res.status(200).send({message: 'Create Success'});
+      else return res.status(200).send({message: 'Create UnSuccess'})
     }
   } catch (e) {
     return res.send(e.message);
@@ -42,8 +32,6 @@ async function createUser (req, res) {
 
 async function updateUser (req, res) {
   try {
-    const user = req.body.user;
-    if (!user) return res.status(200).send({message: 'User is null'});
     const update = await models.userModel.update(user);
     if (update) {
       return res.status(200).send({message: "Update Success"});
@@ -57,7 +45,6 @@ async function updateUser (req, res) {
 
 async function deleteUser (req, res) {
   try {
-    if (!req.params.id) return res.status(204).send({message: 'Params Id is required'});
     const isDeleted = await models.userModel.remove(req.params.id);
     if (isDeleted) return res.status(200).send({message: 'Delete Success'})
     else return res.status(404).send({message: 'Delete UnSuccess'});
@@ -87,9 +74,6 @@ async function getallUser (req, res) {
 async function changePassword (req, res) {
   try {
     const user = req.body.user;
-    if (!user.password || !user.new_password || !user.confirm_password)
-      return res.status(200).send({message: 'Password and New Password is required'});
-    if (user.new_password !== user.confirm_password) return res.status(200).send({message: 'NewPassword and Confirm Password is not match'});
     const isChange = await models.userModel.changePassword(user.id, user.password, user.new_password);
     if (isChange) return res.status(200).send({message: 'Change Password Success'});
     return res.status(200).send({message: 'Change Password UnSuccess'});
@@ -101,9 +85,6 @@ async function changePassword (req, res) {
 async function forgotPassword (req, res) {
   try {
     const user = req.body.user;
-    if (!user.email || !user.new_password || !user.confirm_password)
-      return res.status(200).send({message: 'Email and New Password is required'});
-    if (user.new_password !== user.confirm_password) return res.status(200).send({message: 'NewPassword and Confirm Password is not match'});
     const isChange = await models.userModel.forgotPassword(user.email, user.new_password);
     if (isChange) return res.status(200).send({message: 'Update Password Success'});
     return res.status(200).send({message: 'Update Password UnSuccess'});
@@ -114,7 +95,6 @@ async function forgotPassword (req, res) {
 
 async function getUserById (req, res) {
   try {
-    if (!req.params.id) return res.status(204).send({message: 'Params Id is required'})
     const user = await models.userModel.getById(req.params.id);
     if (!user) return res.status(200).send({message: 'Data ís empty'});
     return res.status(200).send({data: user});

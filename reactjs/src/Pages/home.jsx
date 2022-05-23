@@ -46,6 +46,7 @@ function Home(props) {
   const [data, setData] = useState([]);
   const [total_page, setTotal_Page] = useState(1);
   const [page, setPage] = useState(1);
+  const [isDelete, setisDelete] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -70,7 +71,7 @@ function Home(props) {
     axios.delete(`http://localhost:3002/user/delete/${id}`,)
       .then((response) => alert(response.data.message))
       .catch((error) => console.log(error));
-    window.location.reload(false);
+    setisDelete(true);
   }
 
   useEffect(() => {
@@ -80,7 +81,7 @@ function Home(props) {
         setTotal_Page(res.data.user._totalPage);
       })
       .catch(err => console.log(err));
-  }, [page]);
+  }, [page, isDelete]);
   function handlePagination(event, value) {
     setPage(value);
   }
@@ -138,7 +139,6 @@ function Home(props) {
         </Table>
       </TableContainer>
     </>
-
   );
 }
 
