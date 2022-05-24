@@ -1,7 +1,6 @@
 import './App.css';
 import {Login, Home, ChangePassword, ForgotPassword, SignUp} from './Pages'
 import {PrivateRoute} from "./Component";
-
 import {
   BrowserRouter,
   Routes,

@@ -76,10 +76,8 @@ module.exports = {
   forgotPasswordValidate: (req, res, next) => {
     const forgotPasswordSchema = Joi.object({
       email: Joi.string().email().required(),
-      new_password: Joi.string().min(6).required(),
-      confirm_password: Joi.ref('new_password')
     })
-    const result = forgotPasswordSchema.validate(req.body.user);
+    const result = forgotPasswordSchema.validate({email: req.body.email});
     if (!result.error) next();
     else res.send({message: result.error.message});
   },
