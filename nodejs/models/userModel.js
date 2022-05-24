@@ -1,5 +1,6 @@
-const Joi = require('joi');
 const knex = require('./db')
+const mailer = require('./mailer')
+const Randomstring = require('randomstring')
 const md5 = require('md5')
 
 const userAPI = {
@@ -8,6 +9,8 @@ const userAPI = {
     return data[0];
   },
   create: async (user) => {
+    const data = await knex('user').select().where('email', user.email);
+    if (data[0]) throw new Error('Email is used');
     delete user.confirm_password;
     user.password = md5(user.password);
     await knex('user').insert(user);
@@ -32,11 +35,13 @@ const userAPI = {
     if (changeData) return true;
     return false;
   },
-  forgotPassword: async (email, password) => {
+  forgotPassword: async (email) => {
     const user = await knex('user').select().where('email', email);
     if (!user[0]) return false;
-    const forgotPass = await knex('user').where('email', email).update('password', md5(password));
-    if (forgotPass) return true;
+    const new_password = Randomstring.generate(12);
+    await mailer.sendEmail('reanna.schmitt22@ethereal.email', 'nguyenduongbaphuag@gmail.com', 'Forget Password', new_password);
+    // const forgotPass = await knex('user').where('email', email).update('password', md5(new_password));
+    // if (forgotPass) return true;
     return false;
   },
   getAll: async () => {

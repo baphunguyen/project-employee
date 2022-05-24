@@ -16,15 +16,12 @@ async function loginUser (req, res) {
 
 async function createUser (req, res) {
   try {
-    const rowsEmail = await models.userModel.isEmail(user.email);
-    if (rowsEmail !== undefined) return res.status(200).send({message: 'Email is used'})
-    else {
-      const countData = await models.userModel.getAll();
-      user.id = countData.length + 1;
-      const isAddData = await models.userModel.create(user);
-      if (isAddData) return res.status(200).send({message: 'Create Success'});
-      else return res.status(200).send({message: 'Create UnSuccess'})
-    }
+    const user = req.body.user;
+    const countData = await models.userModel.getAll();
+    user.id = countData.length + 1;
+    const isAddData = await models.userModel.create(user);
+    if (isAddData) return res.status(200).send({message: 'Create Success'});
+    else return res.status(200).send({message: 'Create UnSuccess'})
   } catch (e) {
     return res.send(e.message);
   }
@@ -84,8 +81,8 @@ async function changePassword (req, res) {
 
 async function forgotPassword (req, res) {
   try {
-    const user = req.body.user;
-    const isChange = await models.userModel.forgotPassword(user.email, user.new_password);
+    const email = req.body.email;
+    const isChange = await models.userModel.forgotPassword(email);
     if (isChange) return res.status(200).send({message: 'Update Password Success'});
     return res.status(200).send({message: 'Update Password UnSuccess'});
   } catch (e) {

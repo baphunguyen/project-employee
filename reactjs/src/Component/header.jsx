@@ -31,9 +31,6 @@ const ResponsiveAppBar = () => {
         <Toolbar disableGutters style={{justifyContent: 'right'}}>
           <Typography
             variant="h6"
-            noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
