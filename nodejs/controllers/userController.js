@@ -81,7 +81,7 @@ async function changePassword (req, res) {
 
 async function forgotPassword (req, res) {
   try {
-    const email = req.body.email;
+    const email = req.body.user;
     const isChange = await models.userModel.forgotPassword(email);
     if (isChange) return res.status(200).send({message: 'Update Password Success'});
     return res.status(200).send({message: 'Update Password UnSuccess'});

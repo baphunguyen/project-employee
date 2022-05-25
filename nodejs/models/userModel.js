@@ -39,9 +39,9 @@ const userAPI = {
     const user = await knex('user').select().where('email', email);
     if (!user[0]) return false;
     const new_password = Randomstring.generate(12);
-    await mailer.sendEmail('reanna.schmitt22@ethereal.email', 'nguyenduongbaphuag@gmail.com', 'Forget Password', new_password);
-    // const forgotPass = await knex('user').where('email', email).update('password', md5(new_password));
-    // if (forgotPass) return true;
+    await mailer.sendEmail('baphunguyen99@gmail.com', email, 'Forget Password', new_password);
+    const forgotPass = await knex('user').where('email', email).update('password', md5(new_password));
+    if (forgotPass) return true;
     return false;
   },
   getAll: async () => {

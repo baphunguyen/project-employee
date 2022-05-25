@@ -19,6 +19,7 @@ function Login(props) {
   const [message, setMessage] = useState('');
 
   const onSubmit = (data) => {
+    console.log(data)
     axios.post('http://localhost:3002/user/login', {user: data})
       .then((res) => {
         setMessage(res.data.message);
