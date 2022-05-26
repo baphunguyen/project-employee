@@ -29,6 +29,7 @@ async function createUser (req, res) {
 
 async function updateUser (req, res) {
   try {
+    const user = req.body.user;
     const update = await models.userModel.update(user);
     if (update) {
       return res.status(200).send({message: "Update Success"});

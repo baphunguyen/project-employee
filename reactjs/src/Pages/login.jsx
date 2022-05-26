@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Avatar, Grid, Paper, TextField, Button, Typography, Link, Alert} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {addMessage} from "../Redux/messageSlice";
 
 function Login(props) {
   const paperStyle = {padding: '20px', height: '500px', width: '350px', margin: '120px auto'}
@@ -16,20 +18,21 @@ function Login(props) {
       password: ''
     }
   })
-  const [message, setMessage] = useState('');
+  const message = useSelector(state => state.message);
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log(data)
     axios.post('http://localhost:3002/user/login', {user: data})
       .then((res) => {
-        setMessage(res.data.message);
         if (res.data.data) {
-          localStorage.setItem('isAuth', JSON.stringify({
+          localStorage.setItem('user', JSON.stringify({
             data: res.data.data,
             authed: true,
             expiry: new Date().getTime() + 300000
           }))
           navigate("/home");
+        } else {
+          dispatch(addMessage(res.data.message));
         }
       })
       .catch(err => console.log(err));

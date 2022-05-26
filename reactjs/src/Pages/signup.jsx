@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {Form}from '../Component'
 
 function SignUp(props) {
-  const paperStyle = {padding: '20px', height: '800px', width: '350px', margin: '50px auto'}
+  const paperStyle = {padding: '20px', height: '820px', width: '350px', margin: '50px auto'}
   const avatarStyle = {backgroundColor: '#0995bf', marginTop: '15px'}
   const navigate = useNavigate();
 

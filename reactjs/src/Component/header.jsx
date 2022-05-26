@@ -3,7 +3,8 @@ import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, T
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from "react-router-dom";
 
-const ResponsiveAppBar = () => {
+const Header = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const ResponsiveAppBar = () => {
 
   const handleLogout = () => {
     setAnchorElUser(null);
-    localStorage.removeItem('isAuth');
+    localStorage.removeItem('user');
     window.location.reload(false);
   };
   const handleChangePassword = () => {
@@ -41,7 +42,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            Hello, {JSON.parse(localStorage.getItem('isAuth')).data.fullname}
+            Hello, {user.data.fullname}
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -79,4 +80,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Header;

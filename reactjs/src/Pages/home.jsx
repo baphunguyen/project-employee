@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   TableContainer, Table, TableHead,TableRow, TableCell, Paper, TableBody,
   DialogTitle,
@@ -12,6 +12,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import {Form, Header} from '../Component'
+import {useDispatch, useSelector} from "react-redux";
+import {Change, ChangePage, Open, setData, setDataUpdate, Show} from "../Redux/homeSlice";
 
 
 const BootstrapDialogTitle = (props) => {
@@ -43,13 +45,8 @@ BootstrapDialogTitle.propTypes = {
 };
 
 function Home(props) {
-  const [data, setData] = useState([]);
-  const [total_page, setTotal_Page] = useState(1);
-  const [page, setPage] = useState(1);
-  const [isDelete, setisDelete] = useState(false);
-  const [isShow, setIsShow] = useState(false);
-  const [dataUpdate, setDataUpdate] = useState(null);
-  const [open, setOpen] = useState(false);
+  const home = useSelector(state => state.home);
+  const dispatch = useDispatch();
 
   function formatDate(date) {
     const [year, month, day] = date.split('-');
@@ -58,38 +55,40 @@ function Home(props) {
   }
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(Open(false));
+    dispatch(Change(true));
   }
 
   function handleClickUpdate(row) {
-    setDataUpdate(row);
-    setIsShow(true);
-    setOpen(true);
+    dispatch(setDataUpdate(row));
+    dispatch(Show(true));
+    dispatch(Open(true));
   }
 
   function handleClickDelete(id) {
     axios.delete(`http://localhost:3002/user/delete/${id}`,)
       .then((response) => alert(response.data.message))
       .catch((error) => console.log(error));
-    setisDelete(true);
+    dispatch(Change(true));
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:3002/user/getUser/${page}`)
+    axios.get(`http://localhost:3002/user/getUser/${home.page}`)
       .then((res) => {
-        setData(res.data.user.data);
-        setTotal_Page(res.data.user._totalPage);
+        dispatch(setData(res.data.user));
       })
       .catch(err => console.log(err));
-  }, [page, isDelete]);
+  }, [home.page, home.isChange]);
+
   function handlePagination(event, value) {
-    setPage(value);
+    dispatch(ChangePage(value));
   }
+
   return (
     <>
       <Header />
-      {(total_page > 1) &&
-        <Pagination style={{display: 'flex', justifyContent: 'center', marginBottom: '20px'}}  count={total_page} onChange={handlePagination} color="primary"/>
+      {(home.data._totalPage > 1) &&
+        <Pagination style={{display: 'flex', justifyContent: 'center', marginBottom: '20px'}}  count={home.data._totalPage} onChange={handlePagination} color="primary"/>
       }
       <TableContainer component={Paper}>
         <Table aria-label='simple table'>
@@ -106,8 +105,8 @@ function Home(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {
-              data.map((row) => (
+            {home.data.data &&
+              home.data.data.map((row) => (
                 <TableRow key={row.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.fullname}</TableCell>
@@ -123,14 +122,14 @@ function Home(props) {
                 </TableRow>
               ))
             }
-            {isShow &&
+            {home.isShow &&
               <>
-                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={home.isOpen}>
                   <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Update Data Form
                   </BootstrapDialogTitle>
                   <DialogContent dividers>
-                    <Form onClose={handleClose} data={dataUpdate} isRegister={false}/>
+                    <Form onClose={handleClose} data={home.dataUpdate} isRegister={false}/>
                   </DialogContent>
                 </Dialog>
               </>
