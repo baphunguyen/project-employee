@@ -13,7 +13,7 @@ const createSchema = Joi.object({
   email: Joi.string().email().pattern(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)).required(),
   password: Joi.string().pattern(new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/)).required(),
   confirm_password: Joi.ref('password'),
-  address: Joi.string().required()
+  address: Joi.string().required(),
 })
 
 const deleteSchema = Joi.object({

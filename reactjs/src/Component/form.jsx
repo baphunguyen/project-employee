@@ -50,10 +50,9 @@ function FormData({onClose, data, isRegister}) {
         axios.put('http://localhost:3002/user/update', {user: dataChange})
           .then((response) => {
             if (response.data.message === 'Update Success') {
-              console.log(response);
               onClose();
             } else {
-              alert(response.data.message);
+              dispatch(addMessage(response.data.message));
             }
           })
           .catch(err => console.log(err));
@@ -62,7 +61,6 @@ function FormData({onClose, data, isRegister}) {
           .then((response) => {
             console.log(response);
             if (response.data.message === 'Create Success') {
-              console.log(response);
               onClose();
             } else {
               dispatch(addMessage(response.data));

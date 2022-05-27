@@ -19,7 +19,7 @@ const Header = () => {
   const handleLogout = () => {
     setAnchorElUser(null);
     localStorage.removeItem('user');
-    window.location.reload(false);
+    navigate("/");
   };
   const handleChangePassword = () => {
     setAnchorElUser(null);
