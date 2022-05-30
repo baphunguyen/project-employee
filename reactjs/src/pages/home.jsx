@@ -11,9 +11,9 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-import {Form, Header} from '../Component'
+import {Form, Header} from '@components'
 import {useDispatch, useSelector} from "react-redux";
-import {Change, ChangePage, Open, setData, setDataUpdate, Show} from "../Redux/homeSlice";
+import {Change, ChangePage, Open, setData, setDataUpdate, Show} from "@redux/homeSlice";
 
 
 const BootstrapDialogTitle = (props) => {

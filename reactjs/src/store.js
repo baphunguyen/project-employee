@@ -1,7 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
-import messageReducer from "./Redux/messageSlice";
-import homeReducer from './Redux/homeSlice'
-import forgotPassword from './Redux/forgotPasswordSlice'
+import messageReducer from "@redux/messageSlice";
+import homeReducer from '@redux/homeSlice'
+import forgotPassword from '@redux/forgotPasswordSlice'
 
 const rootReducer = {
   message: messageReducer,

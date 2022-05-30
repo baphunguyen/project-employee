@@ -4,7 +4,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage} from "../Redux/messageSlice";
+import {addMessage} from "@redux/messageSlice";
 import {useFormik} from "formik";
 import * as Yup from 'yup'
 

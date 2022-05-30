@@ -3,7 +3,7 @@ import {Avatar, Grid, Paper, TextField, Button, Alert, Typography} from "@mui/ma
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage, isSuccess} from "../Redux/forgotPasswordSlice";
+import {addMessage, isSuccess} from "@redux/forgotPasswordSlice";
 import {useFormik} from "formik";
 import * as Yup from 'yup'
 

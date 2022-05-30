@@ -14,7 +14,7 @@ import {
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage} from "../Redux/messageSlice";
+import {addMessage} from "@redux/messageSlice";
 
 function FormData({onClose, data, isRegister}) {
   const message = useSelector(state => state.message);

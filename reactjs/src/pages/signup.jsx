@@ -2,7 +2,7 @@ import React from 'react';
 import {Avatar, Grid, Paper} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from "react-router-dom";
-import {Form}from '../Component'
+import {Form}from '@components'
 
 function SignUp(props) {
   const paperStyle = {padding: '20px', height: '820px', width: '350px', margin: '50px auto'}
