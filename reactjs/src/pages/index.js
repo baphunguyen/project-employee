@@ -1,5 +1,0 @@
-export { default as Login } from './login'
-export { default as Home } from './home'
-export { default as ChangePassword } from './changepassword'
-export { default as ForgotPassword } from './forgotpassword'
-export { default as SignUp } from './signup'

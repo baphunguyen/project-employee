@@ -11,7 +11,8 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, './src/pages'),
       '@redux': path.resolve(__dirname, './src/redux'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
-      '@config': path.resolve(__dirname, './src/config')
+      '@config': path.resolve(__dirname, './src/config'),
+      '@routes': path.resolve(__dirname, './src/routes')
     }
   },
   plugins: [react()]
