@@ -5,7 +5,7 @@ import {makeStyles} from "@mui/styles";
 
 import MenuList from './MenuList';
 
-import { drawerWidth } from './../../../store/constant';
+import { drawerWidth } from '@store/constant';
 import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

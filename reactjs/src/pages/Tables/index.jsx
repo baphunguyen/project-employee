@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 
 import {Card, CardHeader, Divider, Grid, Pagination, Typography} from '@mui/material';
 
-import { gridSpacing } from '../../store/constant';
+import { gridSpacing } from '@store/constant';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

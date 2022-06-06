@@ -47,28 +47,16 @@ const ChangePassword = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [message, setMessage] = React.useState('');
+  const [showError, setShowError] = React.useState(false);
   const formik = useFormik({
     initialValues: {
-      password: '',
-      new_password: '',
-      confirm_password: ''
+      email: '',
     },
     validationSchema: Yup.object({
-      password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/).required("Password is required"),
-      new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/).required("New Password is required"),
-      confirm_password: Yup.string().oneOf([Yup.ref('new_password'), null], 'New Password must match')
+      email: Yup.string().email().matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/).required('Email is required'),
     }),
     onSubmit: (values) => {
-      const  submitData = {id: JSON.parse(localStorage.getItem('user')).data.id, ...values};
-      axios.put('http://localhost:3002/user/changepassword', {user: submitData})
-        .then((res) => {
-          if (res.data.message !== 'Change Password Success') {
-            setMessage(res.data.message);
-          } else {
-            navigate("/dashboard");
-          }
-        })
-        .catch(err => console.log(err));
+
     }
   })
 
@@ -82,10 +70,10 @@ const ChangePassword = () => {
                 <Grid container justifyContent="space-between">
                   <Grid item>
                     <Typography color="textPrimary" gutterBottom variant="h3">
-                      Change Password
+                      ForgotPassword
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
-                      Please change password.
+                      Please enter email.
                     </Typography>
                   </Grid>
                 </Grid>
@@ -98,48 +86,25 @@ const ChangePassword = () => {
                   <TextField
                     fullWidth
                     autoFocus
-                    label="Password"
+                    label="Email"
                     margin="normal"
-                    name="password"
-                    type="password"
-                    value={formik.values.password}
+                    name="email"
+                    type="email"
+                    value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={!!formik.errors.password}
-                    helperText={formik.errors.password? formik.errors.password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="New Password"
-                    margin="normal"
-                    name="new_password"
-                    type="password"
-                    value={formik.values.new_password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.new_password}
-                    helperText={formik.errors.new_password? formik.errors.new_password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Confirm New Password"
-                    margin="normal"
-                    name="confirm_password"
-                    type="password"
-                    value={formik.values.confirm_password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.confirm_password}
-                    helperText={formik.errors.confirm_password? formik.errors.confirm_password: ''}
+                    error={showError}
+                    helperText={showError? formik.errors.email: ''}
                     variant="outlined"
                   />
                   <Button
                     variant='contained'
                     type='submit'
                     className={classes.submitButton}
+                    onClick={() => setShowError(true)}
                     color='primary'
                     fullWidth
                   >
-                    Change Password
+                    Forgot Password
                   </Button>
                 </form>
               </Grid>

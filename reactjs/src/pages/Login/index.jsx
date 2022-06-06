@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import * as Yup from 'yup'
 import {useFormik} from "formik";
-import Logo from './../../assets/images/logo-dark.svg';
+import Logo from '@assets/images/logo-dark.svg';
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -7,9 +7,9 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import Customization from './Customization';
 import ProfileSection from './ProfileSection';
 
-import logo from './../../../assets/images/logo.svg';
-import dark_logo from './../../../assets/images/logo-dark.svg'
-import { drawerWidth } from './../../../store/constant';
+import logo from '@assets/images/logo.svg';
+import dark_logo from '@assets/images/logo-dark.svg'
+import { drawerWidth } from '@store/constant';
 import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

@@ -7,12 +7,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@assets': path.resolve(__dirname, './src/assets'),
-      '@components': path.resolve(__dirname, './src/components'),
+      '@component': path.resolve(__dirname, './src/component'),
       '@pages': path.resolve(__dirname, './src/pages'),
       '@redux': path.resolve(__dirname, './src/redux'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
       '@config': path.resolve(__dirname, './src/config'),
-      '@routes': path.resolve(__dirname, './src/routes')
+      '@routes': path.resolve(__dirname, './src/routes'),
+      '@store': path.resolve(__dirname, './src/store')
     }
   },
   plugins: [react()]

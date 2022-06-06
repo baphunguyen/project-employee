@@ -6,7 +6,7 @@ import {makeStyles} from "@mui/styles";
 import Brightness6Icon from '@mui/icons-material/Brightness6';
 import Brightness6OutlinedIcon from '@mui/icons-material/Brightness6Outlined';
 
-import * as actionTypes from '../../../../store/actions';
+import * as actionTypes from '@store/actions';
 
 
 const useStyles = makeStyles((theme) => ({

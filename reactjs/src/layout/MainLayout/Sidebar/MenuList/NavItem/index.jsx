@@ -6,8 +6,8 @@ import { Avatar, ListItemButton, ListItemIcon, ListItemText, Typography } from '
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import Chip from '../../../../../component/Chip';
-import * as actionTypes from '../../../../../store/actions';
+import Chip from '@component/Chip';
+import * as actionTypes from '@store/actions';
 
 const useStyles = makeStyles((theme) => ({
     listIcon: {

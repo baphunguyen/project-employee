@@ -16,6 +16,8 @@ const AuthRegisterData = lazy(() => import('./pages/Register'))
 
 const Tables = lazy(() => import('./pages/Tables'));
 
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+
 const Router = () => {
     return (
         <AnimatePresence>
@@ -51,6 +53,7 @@ const Router = () => {
                         </MainLayout>
                       </PrivateLayout>
                     }/>
+                    <Route path="/forgotpassword" element={<ForgotPassword />}/>
                 </Routes>
             </Suspense>
         </AnimatePresence>

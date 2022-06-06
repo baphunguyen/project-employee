@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {useMediaQuery, useTheme, AppBar, CssBaseline, Toolbar } from '@mui/material';
 import {makeStyles} from "@mui/styles";
 
-import { drawerWidth } from './../../store/constant';
+import { drawerWidth } from '@store/constant';
 import Header from './Header';
 import Sidebar from './Sidebar';
 
@@ -58,6 +58,7 @@ const MainLayout = ({ children }) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+    console.log(matchUpMd);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {

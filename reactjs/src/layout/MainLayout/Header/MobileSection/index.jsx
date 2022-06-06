@@ -9,9 +9,10 @@ import {
     Popper,
     Toolbar,
     Grid,
+    useTheme
 } from '@mui/material';
 
-import {makeStyles, useTheme} from "@mui/styles";
+import {makeStyles} from "@mui/styles";
 
 import ProfileSection from '../ProfileSection';
 
