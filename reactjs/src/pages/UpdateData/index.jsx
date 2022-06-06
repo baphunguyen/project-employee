@@ -59,7 +59,6 @@ const UpdateData = () => {
   const navigate = useNavigate();
   const {state} = useLocation();
   const [message, setMessage] = React.useState('');
-  const [showError, setShowError] = React.useState(false);
   const formik = useFormik({
     initialValues: {
       fullname: state.fullname,
@@ -82,7 +81,8 @@ const UpdateData = () => {
       delete dataChange.password;
       delete dataChange.email;
       delete dataChange.confirm_password;
-      dataChange.id = state.data.id;
+      dataChange.id = state.id;
+      console.log(dataChange)
       axios.put('http://localhost:3002/user/update', {user: dataChange})
         .then((response) => {
           if (response.data.message === 'Update Success') {
@@ -127,8 +127,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.fullname}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.fullname: ''}
+                    error={!!formik.errors.fullname}
+                    helperText={formik.errors.fullname? formik.errors.fullname: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -140,8 +140,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.email: ''}
+                    error={!!formik.errors.email}
+                    helperText={formik.errors.email ? formik.errors.email: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -152,8 +152,8 @@ const UpdateData = () => {
                     type="number"
                     value={formik.values.age}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.age: ''}
+                    error={!!formik.errors.age}
+                    helperText={formik.errors.age ? formik.errors.age: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -164,8 +164,8 @@ const UpdateData = () => {
                     type="date"
                     value={formik.values.dateofbirth}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.dateofbirth: ''}
+                    error={!!formik.errors.dateofbirth}
+                    helperText={formik.errors.dateofbirth ? formik.errors.dateofbirth: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -176,8 +176,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.address}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.address: ''}
+                    error={!!formik.errors.address}
+                    helperText={formik.errors.address ? formik.errors.address: ''}
                     variant="outlined"
                   />
                   <FormControl fullWidth margin='normal'>
@@ -191,7 +191,6 @@ const UpdateData = () => {
                     variant='contained'
                     type='submit'
                     className={classes.submitButton}
-                    onClick={() => setShowError(true)}
                     color='primary'
                     fullWidth
                   >

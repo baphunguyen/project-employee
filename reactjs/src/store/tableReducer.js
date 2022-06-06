@@ -7,6 +7,7 @@ export const initialState = {
   isShow: false,
   page: 1,
   dataUpdate: null,
+  isLoading: false,
 };
 
 const tableReducer = (state = initialState, action) => {

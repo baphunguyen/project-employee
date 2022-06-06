@@ -106,6 +106,8 @@ const Login = () => {
                                       type="email"
                                       value={formik.values.email}
                                       onChange={formik.handleChange}
+                                      error={!!formik.errors.email}
+                                      helperText={formik.errors.email ? formik.errors.email: ''}
                                       variant="outlined"
                                     />
                                     <TextField
@@ -116,6 +118,8 @@ const Login = () => {
                                       type="password"
                                       value={formik.values.password}
                                       onChange={formik.handleChange}
+                                      error={!!formik.errors.password}
+                                      helperText={formik.errors.password ? formik.errors.password: ''}
                                       variant="outlined"
                                     />
                                     <Button

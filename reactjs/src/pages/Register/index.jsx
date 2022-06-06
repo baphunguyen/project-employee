@@ -58,7 +58,6 @@ const UpdateData = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [message, setMessage] = React.useState('');
-  const [showError, setShowError] = React.useState(false);
   const formik = useFormik({
     initialValues: {
       fullname:'',
@@ -125,8 +124,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.fullname}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.fullname: ''}
+                    error={!!formik.errors.fullname}
+                    helperText={formik.errors.fullname ? formik.errors.fullname: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -137,8 +136,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.email: ''}
+                    error={!!formik.errors.email}
+                    helperText={formik.errors.email ? formik.errors.email: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -149,8 +148,8 @@ const UpdateData = () => {
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.password: ''}
+                    error={!!formik.errors.password}
+                    helperText={formik.errors.password ? formik.errors.password: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -161,8 +160,8 @@ const UpdateData = () => {
                     type="password"
                     value={formik.values.confirm_password}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.confirm_password: ''}
+                    error={!!formik.errors.confirm_password}
+                    helperText={formik.errors.confirm_password ? formik.errors.confirm_password: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -173,8 +172,8 @@ const UpdateData = () => {
                     type="number"
                     value={formik.values.age}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.age: ''}
+                    error={!!formik.errors.age}
+                    helperText={formik.errors.age ? formik.errors.age: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -186,8 +185,8 @@ const UpdateData = () => {
                     InputLabelProps={{shrink: true}}
                     value={formik.values.dateofbirth}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.dateofbirth: ''}
+                    error={!!formik.errors.dateofbirth}
+                    helperText={formik.errors.dateofbirth ? formik.errors.dateofbirth: ''}
                     variant="outlined"
                   />
                   <TextField
@@ -198,8 +197,8 @@ const UpdateData = () => {
                     type="text"
                     value={formik.values.address}
                     onChange={formik.handleChange}
-                    error={showError}
-                    helperText={showError? formik.errors.address: ''}
+                    error={!!formik.errors.address}
+                    helperText={formik.errors.address? formik.errors.address: ''}
                     variant="outlined"
                   />
                   <FormControl fullWidth margin='normal'>
@@ -213,7 +212,6 @@ const UpdateData = () => {
                     variant='contained'
                     type='submit'
                     className={classes.submitButton}
-                    onClick={() => setShowError(true)}
                     color='primary'
                     fullWidth
                   >
