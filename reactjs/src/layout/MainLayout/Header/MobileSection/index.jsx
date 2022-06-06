@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-    makeStyles,
-    useTheme,
     useMediaQuery,
     AppBar,
     ClickAwayListener,
@@ -13,8 +11,8 @@ import {
     Grid,
 } from '@mui/material';
 
-import SearchSection from '../SearchSection';
-import NotificationSection from '../NotificationSection';
+import {makeStyles, useTheme} from "@mui/styles";
+
 import ProfileSection from '../ProfileSection';
 
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { Avatar, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Avatar, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -36,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
 const NavItem = (props) => {
     const classes = useStyles();
     const customization = useSelector((state) => state.customization);
-    const dispatch = useDispatch();
     const { item, level } = props;
 
     const Icon = item.icon;
     const itemIcon = item.icon ? (
-        <Icon className={classes.listCustomIcon} color="inherit" />
+        <Icon color={customization.navType === 'light'? 'inherit' : 'primary'} />
     ) : (
-        <ArrowForwardIcon className={classes.listCustomIcon} color="inherit" fontSize={level > 0 ? 'inherit' : 'default'} />
+        <ArrowForwardIcon color="inherit" fontSize={level > 0 ? 'inherit' : 'default'} />
     );
 
     let itemIconClass = !item.icon ? classes.listIcon : classes.menuIcon;
@@ -59,7 +58,7 @@ const NavItem = (props) => {
     }
 
     return (
-        <ListItem
+        <ListItemButton
             disabled={item.disabled}
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             selected={customization.isOpen === item.id}
@@ -100,7 +99,7 @@ const NavItem = (props) => {
                     avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
                 />
             )}
-        </ListItem>
+        </ListItemButton>
     );
 };
 

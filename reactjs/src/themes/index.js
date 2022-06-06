@@ -1,7 +1,7 @@
 import {createTheme} from "@mui/material/styles";
 import grey from '@mui/material/colors/grey';
 
-export function theme(customization) {
+function theme(customization) {
     let textPrimary;
     let textSecondary;
     let textDark;
@@ -12,36 +12,35 @@ export function theme(customization) {
     let textInversePrimary;
     switch (customization.navType) {
         case 'dark':
-            textPrimary = menuCaption = textInversePrimary = '#bbc0c7';
-            textSecondary = '#babfc9';
-            textDark = '#fff';
-            textHint = 'rgba(148, 145, 145, 0.3803921569)';
+            textPrimary = menuCaption = textInversePrimary = '#bbc0c7 !important';
+            textSecondary = '#babfc9 !important';
+            textDark = '#fff !important';
+            textHint = 'rgba(148, 145, 145, 0.3803921569) !important';
 
-            background = '#181e2b';
-            paper = '#232b38';
+            background = '#181e2b !important';
+            paper = '#232b38 !important';
             break;
         case 'light':
         default:
-            textPrimary = textInversePrimary = menuCaption = '#242c3a';
-            textSecondary = '#1b212c';
-            textDark = '#12171e';
-            textHint = 'rgba(0, 0, 0, 0.3803921569)';
+            textPrimary = textInversePrimary = menuCaption = '#242c3a !important';
+            textSecondary = '#1b212c !important';
+            textDark = '#12171e !important';
+            textHint = 'rgba(0, 0, 0, 0.3803921569) !important';
 
-            background = '#f0f2f8';
-            paper = '#ffffff';
+            background = '#f0f2f8 !important';
+            paper = '#ffffff !important';
             break;
     }
 
     return createTheme({
-        direction: customization.rtlLayout ? 'rtl' : 'ltr',
         palette: {
             type: 'light',
             common: {
-                black: '#232b38',
+                black: '#232b38 !important',
             },
             primary: {
                 light: '#3380f4',
-                main: '#3366ff',
+                main: '#3366ff !important',
                 dark: '#0043a9',
                 100: '#4c6fff',
             },

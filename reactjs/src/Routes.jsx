@@ -6,15 +6,15 @@ import Loader from './component/Loader/Loader';
 import MainLayout from './layout/MainLayout';
 import PrivateLayout from "./layout/PrivateLayout";
 
-const AuthLogin = lazy(() => import('./views/Login'));
+const AuthLogin = lazy(() => import('./pages/Login'));
 
-const AuthChangePassword = lazy(() => import('./views/ChangePassword'));
+const AuthChangePassword = lazy(() => import('./pages/ChangePassword'));
 
-const AuthUpdateData = lazy(() => import('./views/UpdateData'))
+const AuthUpdateData = lazy(() => import('./pages/UpdateData'))
 
-const AuthRegisterData = lazy(() => import('./views/Register'))
+const AuthRegisterData = lazy(() => import('./pages/Register'))
 
-const TableBasic = lazy(() => import('./views/Tables'));
+const Tables = lazy(() => import('./pages/Tables'));
 
 const Router = () => {
     return (
@@ -26,7 +26,7 @@ const Router = () => {
                     <Route path="/dashboard" element={
                       <PrivateLayout>
                         <MainLayout>
-                          <TableBasic />
+                          <Tables />
                         </MainLayout>
                       </PrivateLayout>
                     }/>

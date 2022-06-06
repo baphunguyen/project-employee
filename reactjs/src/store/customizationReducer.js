@@ -1,5 +1,5 @@
 import * as actionTypes from './actions';
-import config from '../config';
+import config from '../config/config';
 
 export const initialState = {
     isOpen: 'dashboard', //for active default menu

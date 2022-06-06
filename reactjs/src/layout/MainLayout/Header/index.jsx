@@ -8,7 +8,9 @@ import Customization from './Customization';
 import ProfileSection from './ProfileSection';
 
 import logo from './../../../assets/images/logo.svg';
+import dark_logo from './../../../assets/images/logo-dark.svg'
 import { drawerWidth } from './../../../store/constant';
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -36,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = (props) => {
     const { drawerToggle } = props;
+    const customization = useSelector(state => state.customization)
     const classes = useStyles();
 
     return (
@@ -45,7 +48,7 @@ const Header = (props) => {
                     <Hidden smDown>
                         <Grid item>
                             <Box mt={0.5}>
-                                <img src={logo} alt="Logo" />
+                                <img src={customization.navType === 'light'? logo : dark_logo} alt="Logo" />
                             </Box>
                         </Grid>
                     </Hidden>

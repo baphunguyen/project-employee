@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: -drawerWidth,
             width: `calc(100% - ${drawerWidth}px)`,
         },
+        background: theme.palette.background.default,
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 0,
+        background: theme.palette.background.default,
     },
     main: {
         padding: theme.spacing(1),

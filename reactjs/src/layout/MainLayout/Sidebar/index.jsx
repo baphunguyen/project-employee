@@ -5,8 +5,8 @@ import {makeStyles} from "@mui/styles";
 
 import MenuList from './MenuList';
 
-import logo from './../../../assets/images/logo.svg';
 import { drawerWidth } from './../../../store/constant';
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     drawer: {
@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
         background: theme.palette.common.black,
         color: theme.palette.text.primary,
+        top: '64px !important',
+        [theme.breakpoints.down('sm')]: {
+            top: 0,
+        },
     },
     drawerPaperLight: {
         width: drawerWidth,
@@ -50,24 +54,10 @@ const MainLayout = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+    const customization = useSelector((state) => state.customization);
 
     const drawer = (
         <React.Fragment>
-            <Hidden mdUp>
-                <Grid
-                    container
-                    direction="row"
-                    justify="center"
-                    elevation={5}
-                    alignItems="center"
-                    spacing={0}
-                    className={[classes.toolbar, classes.logoContainer].join(' ')}
-                >
-                    <Grid item>
-                        <img src={logo} alt="Logo" />
-                    </Grid>
-                </Grid>
-            </Hidden>
             <Divider />
             <PerfectScrollbar className={classes.ScrollHeight}>
                 <MenuList />
@@ -85,7 +75,7 @@ const MainLayout = (props) => {
                 anchor="left"
                 open={drawerOpen}
                 onClose={drawerToggle}
-                classes={{ paper: classes.drawerPaperLight }}
+                classes={{ paper: customization.navType === 'light'? classes.drawerPaperLight: classes.drawerPaper}}
                 ModalProps={{ keepMounted: true }}
             >
                 {drawer}

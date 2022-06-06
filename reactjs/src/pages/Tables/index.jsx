@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 
 import {Card, CardHeader, Divider, Grid, Pagination, Typography} from '@mui/material';
 
-import Breadcrumb from '../../component/Breadcrumb';
 import { gridSpacing } from '../../store/constant';
 
 import Table from '@mui/material/Table';
@@ -19,14 +18,24 @@ import {useDispatch, useSelector} from "react-redux";
 import * as actionTypes from '../../store/actions';
 import {useNavigate} from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 350,
+        "& .MuiTableCell-root": {
+            color: theme.palette.text.primary
+        }
     },
     paginaton: {
-        marginTop: '10px !important'
+        marginTop: '10px !important',
+        "& .MuiPaginationItem-root": {
+            color: theme.palette.text.primary
+        }
+    },
+    themeDark: {
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary
     }
-});
+}));
 
 const formatDate = (date) => {
     const [year, month, day] = date.split('-');
@@ -71,10 +80,9 @@ export default function TableBasic() {
 
     return (
         <React.Fragment>
-            <Breadcrumb title="Employee Table" />
             <Grid container spacing={gridSpacing}>
                 <Grid item xs={12}>
-                    <Card>
+                    <Card className={classes.themeDark}>
                         <CardHeader
                           title={
                               <Typography component="div" className="card-header">
@@ -82,14 +90,17 @@ export default function TableBasic() {
                               </Typography>
                           }
                         />
+                        <CardHeader
+                          title={
+                              home.data._totalPage > 1 &&
+                                <Pagination classes={{ul: classes.paginaton}} count={home.data._totalPage} color="primary" onChange={handlePagination}/>
+                          }
+                        />
                         <Divider />
                         <TableContainer>
-                            {home.data._totalPage > 1 &&
-                              <Pagination className={classes.paginaton} count={home.data._totalPage} color="primary" onChange={handlePagination}/>
-                            }
                             <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow>
+                                <TableHead style={{color: '#bbc0c7'}}>
+                                    <TableRow style={{color: '#bbc0c7'}}>
                                         <TableCell align="center">Id</TableCell>
                                         <TableCell>Họ và Tên</TableCell>
                                         <TableCell>Email</TableCell>
