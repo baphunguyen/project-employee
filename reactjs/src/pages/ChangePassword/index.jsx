@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardContent, Divider, Typography, Grid, TextField, Button, Alert} from '@mui/material';
+import {Card, CardContent, Divider, Typography, Grid, TextField, Button, Alert, Zoom} from '@mui/material';
 import {useFormik} from "formik";
 import {makeStyles} from "@mui/styles";
 import * as Yup from 'yup'
@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submitButton: {
     margin: '16px 0px !important'
+  },
+  trans: {
+    transitionDuration: '0.5s !important',
   }
 }));
 
@@ -74,80 +77,82 @@ const ChangePassword = () => {
 
   return (
     <Grid container justifyContent="center" alignItems="center" className={classes.root}>
-      <Grid item xs={11} sm={7} md={6} lg={4}>
-        <Card className={classes.card}>
-          <CardContent className={classes.content}>
-            <Grid container direction="column" spacing={4} justifyContent="center">
-              <Grid item xs={12}>
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    <Typography color="textPrimary" gutterBottom variant="h3">
-                      Change Password
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Please change password.
-                    </Typography>
+      <Zoom in={true} className={classes.trans}>
+        <Grid item xs={11} sm={7} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardContent className={classes.content}>
+              <Grid container direction="column" spacing={4} justifyContent="center">
+                <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      <Typography color="textPrimary" gutterBottom variant="h3">
+                        Change Password
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Please change password.
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
+                <Grid item xs={12}>
+                  <Typography>
+                    {message && <Alert severity='error'>{message}</Alert>}
+                  </Typography>
+                  <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                      fullWidth
+                      autoFocus
+                      label="Password"
+                      margin="normal"
+                      name="password"
+                      type="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.password}
+                      helperText={formik.errors.password? formik.errors.password: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="New Password"
+                      margin="normal"
+                      name="new_password"
+                      type="password"
+                      value={formik.values.new_password}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.new_password}
+                      helperText={formik.errors.new_password? formik.errors.new_password: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Confirm New Password"
+                      margin="normal"
+                      name="confirm_password"
+                      type="password"
+                      value={formik.values.confirm_password}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.confirm_password}
+                      helperText={formik.errors.confirm_password? formik.errors.confirm_password: ''}
+                      variant="outlined"
+                    />
+                    <Button
+                      variant='contained'
+                      type='submit'
+                      className={classes.submitButton}
+                      color='primary'
+                      fullWidth
+                    >
+                      Change Password
+                    </Button>
+                  </form>
+                </Grid>
+                <Divider />
               </Grid>
-              <Grid item xs={12}>
-                <Typography>
-                  {message && <Alert severity='error'>{message}</Alert>}
-                </Typography>
-                <form onSubmit={formik.handleSubmit}>
-                  <TextField
-                    fullWidth
-                    autoFocus
-                    label="Password"
-                    margin="normal"
-                    name="password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.password}
-                    helperText={formik.errors.password? formik.errors.password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="New Password"
-                    margin="normal"
-                    name="new_password"
-                    type="password"
-                    value={formik.values.new_password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.new_password}
-                    helperText={formik.errors.new_password? formik.errors.new_password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Confirm New Password"
-                    margin="normal"
-                    name="confirm_password"
-                    type="password"
-                    value={formik.values.confirm_password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.confirm_password}
-                    helperText={formik.errors.confirm_password? formik.errors.confirm_password: ''}
-                    variant="outlined"
-                  />
-                  <Button
-                    variant='contained'
-                    type='submit'
-                    className={classes.submitButton}
-                    color='primary'
-                    fullWidth
-                  >
-                    Change Password
-                  </Button>
-                </form>
-              </Grid>
-              <Divider />
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Zoom>
     </Grid>
   );
 };

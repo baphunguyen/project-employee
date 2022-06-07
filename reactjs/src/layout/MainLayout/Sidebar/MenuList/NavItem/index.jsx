@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Avatar, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
@@ -7,7 +7,6 @@ import { Avatar, ListItemButton, ListItemIcon, ListItemText, Typography } from '
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import Chip from '@component/Chip';
-import * as actionTypes from '@store/actions';
 
 const useStyles = makeStyles((theme) => ({
     listIcon: {
@@ -31,10 +30,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#ffcdd2',
         marginRight: '20px',
     },
+    listItemTypography: {
+        ...theme.typography.cardTitle
+    }
 }));
 
 const NavItem = (props) => {
     const classes = useStyles();
+    const navigate = useNavigate();
     const customization = useSelector((state) => state.customization);
     const { item, level } = props;
 
@@ -45,7 +48,7 @@ const NavItem = (props) => {
         <ArrowForwardIcon color="inherit" fontSize={level > 0 ? 'inherit' : 'default'} />
     );
 
-    let itemIconClass = !item.icon ? classes.listIcon : classes.menuIcon;
+    let itemIconClass = !item.icon ? classes.listIcon : '';
 
     let itemTarget = '';
     if (item.target) {
@@ -57,14 +60,16 @@ const NavItem = (props) => {
         listItemProps = { component: 'a', href: item.url };
     }
 
+    const handleOnClick = () => {
+        navigate(item.url);
+    }
+
     return (
         <ListItemButton
             disabled={item.disabled}
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             selected={customization.isOpen === item.id}
-            component={Link}
-            onClick={() => dispatch({ type: actionTypes.MENU_OPEN, isOpen: item.id })}
-            to={item.url}
+            onClick={() => handleOnClick}
             target={itemTarget}
             button
             style={{ paddingLeft: level * 16 + 'px' }}

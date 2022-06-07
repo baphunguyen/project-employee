@@ -9,7 +9,7 @@ import {
   Button,
   Alert,
   FormControl,
-  FormLabel, RadioGroup, FormControlLabel, Radio
+  FormLabel, RadioGroup, FormControlLabel, Radio, Zoom
 } from '@mui/material';
 import {useFormik} from "formik";
 import {makeStyles} from "@mui/styles";
@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submitButton: {
     margin: '16px 0px !important'
+  },
+  trans: {
+    transitionDuration: '0.5s !important',
   }
 }));
 
@@ -93,138 +96,140 @@ const UpdateData = () => {
   })
 
   return (
-    <Grid container justifyContent="center" alignItems="center" className={classes.root}>
-      <Grid item xs={11} sm={7} md={6} lg={4}>
-        <Card className={classes.card}>
-          <CardContent className={classes.content}>
-            <Grid container direction="column" spacing={4} justifyContent="center">
-              <Grid item xs={12}>
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    <Typography color="textPrimary" gutterBottom variant="h3">
-                      Register Data
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Please register data.
-                    </Typography>
+      <Grid container justifyContent="center" alignItems="center" className={classes.root}>
+        <Zoom in={true} className={classes.trans}>
+        <Grid item xs={11} sm={7} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardContent className={classes.content}>
+              <Grid container direction="column" spacing={4} justifyContent="center">
+                <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      <Typography color="textPrimary" gutterBottom variant="h3">
+                        Register Data
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Please register data.
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
+                <Grid item xs={12}>
+                  <Typography>
+                    {message && <Alert severity='error'>{message}</Alert>}
+                  </Typography>
+                  <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                      fullWidth
+                      autoFocus
+                      label="Họ và Tên"
+                      margin="normal"
+                      name="fullname"
+                      type="text"
+                      value={formik.values.fullname}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.fullname}
+                      helperText={formik.errors.fullname ? formik.errors.fullname: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Email"
+                      margin="normal"
+                      name="email"
+                      type="text"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.email}
+                      helperText={formik.errors.email ? formik.errors.email: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Password"
+                      margin="normal"
+                      name="password"
+                      type="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.password}
+                      helperText={formik.errors.password ? formik.errors.password: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Confirm Password"
+                      margin="normal"
+                      name="confirm_password"
+                      type="password"
+                      value={formik.values.confirm_password}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.confirm_password}
+                      helperText={formik.errors.confirm_password ? formik.errors.confirm_password: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Tuổi"
+                      margin="normal"
+                      name="age"
+                      type="number"
+                      value={formik.values.age}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.age}
+                      helperText={formik.errors.age ? formik.errors.age: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Ngày Sinh"
+                      margin="normal"
+                      name="dateofbirth"
+                      type="date"
+                      InputLabelProps={{shrink: true}}
+                      value={formik.values.dateofbirth}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.dateofbirth}
+                      helperText={formik.errors.dateofbirth ? formik.errors.dateofbirth: ''}
+                      variant="outlined"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Địa chỉ"
+                      margin="normal"
+                      name="address"
+                      type="text"
+                      value={formik.values.address}
+                      onChange={formik.handleChange}
+                      error={!!formik.errors.address}
+                      helperText={formik.errors.address? formik.errors.address: ''}
+                      variant="outlined"
+                    />
+                    <FormControl fullWidth margin='normal'>
+                      <FormLabel>Giới Tính</FormLabel>
+                      <RadioGroup row name='gender' value={formik.values.gender} onChange={formik.handleChange}>
+                        <FormControlLabel control={<Radio/>} label='Female' value='female'/>
+                        <FormControlLabel control={<Radio/>} label='Male' value='male'/>
+                      </RadioGroup>
+                    </FormControl>
+                    <Button
+                      variant='contained'
+                      type='submit'
+                      className={classes.submitButton}
+                      color='primary'
+                      fullWidth
+                    >
+                      Register
+                    </Button>
+                  </form>
+                </Grid>
+                <Divider />
               </Grid>
-              <Grid item xs={12}>
-                <Typography>
-                  {message && <Alert severity='error'>{message}</Alert>}
-                </Typography>
-                <form onSubmit={formik.handleSubmit}>
-                  <TextField
-                    fullWidth
-                    autoFocus
-                    label="Họ và Tên"
-                    margin="normal"
-                    name="fullname"
-                    type="text"
-                    value={formik.values.fullname}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.fullname}
-                    helperText={formik.errors.fullname ? formik.errors.fullname: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    margin="normal"
-                    name="email"
-                    type="text"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.email}
-                    helperText={formik.errors.email ? formik.errors.email: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Password"
-                    margin="normal"
-                    name="password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.password}
-                    helperText={formik.errors.password ? formik.errors.password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Confirm Password"
-                    margin="normal"
-                    name="confirm_password"
-                    type="password"
-                    value={formik.values.confirm_password}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.confirm_password}
-                    helperText={formik.errors.confirm_password ? formik.errors.confirm_password: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Tuổi"
-                    margin="normal"
-                    name="age"
-                    type="number"
-                    value={formik.values.age}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.age}
-                    helperText={formik.errors.age ? formik.errors.age: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Ngày Sinh"
-                    margin="normal"
-                    name="dateofbirth"
-                    type="date"
-                    InputLabelProps={{shrink: true}}
-                    value={formik.values.dateofbirth}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.dateofbirth}
-                    helperText={formik.errors.dateofbirth ? formik.errors.dateofbirth: ''}
-                    variant="outlined"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Địa chỉ"
-                    margin="normal"
-                    name="address"
-                    type="text"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                    error={!!formik.errors.address}
-                    helperText={formik.errors.address? formik.errors.address: ''}
-                    variant="outlined"
-                  />
-                  <FormControl fullWidth margin='normal'>
-                    <FormLabel>Giới Tính</FormLabel>
-                    <RadioGroup row name='gender' value={formik.values.gender} onChange={formik.handleChange}>
-                      <FormControlLabel control={<Radio/>} label='Female' value='female'/>
-                      <FormControlLabel control={<Radio/>} label='Male' value='male'/>
-                    </RadioGroup>
-                  </FormControl>
-                  <Button
-                    variant='contained'
-                    type='submit'
-                    className={classes.submitButton}
-                    color='primary'
-                    fullWidth
-                  >
-                    Register
-                  </Button>
-                </form>
-              </Grid>
-              <Divider />
-            </Grid>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Grid>
+        </Zoom>
       </Grid>
-    </Grid>
   );
 };
 
