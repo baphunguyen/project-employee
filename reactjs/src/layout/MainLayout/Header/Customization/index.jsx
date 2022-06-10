@@ -44,4 +44,4 @@ const Customization = () => {
     );
 };
 
-export default Customization;
+export default React.memo(Customization);

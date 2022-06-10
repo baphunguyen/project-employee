@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Avatar, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import * as actionTypes from '@store/actions'
 
-import Chip from '@component/Chip';
 
 const useStyles = makeStyles((theme) => ({
     listIcon: {
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.subMenuCaption,
     },
     listItemNoBack: {
-        backgroundColor: 'transparent !important',
         paddingTop: '8px',
         paddingBottom: '8px',
         borderRadius: '5px',
@@ -39,6 +38,7 @@ const NavItem = (props) => {
     const classes = useStyles();
     const navigate = useNavigate();
     const customization = useSelector((state) => state.customization);
+    const dispatch = useDispatch();
     const { item, level } = props;
 
     const Icon = item.icon;
@@ -55,12 +55,11 @@ const NavItem = (props) => {
         itemTarget = '_blank';
     }
 
-    let listItemProps = { component: Link, to: item.url };
-    if (item.external) {
-        listItemProps = { component: 'a', href: item.url };
-    }
-
-    const handleOnClick = () => {
+    const handleClick = () => {
+        dispatch({
+            type: actionTypes.MENU_OPEN,
+            isOpen: item.id
+        })
         navigate(item.url);
     }
 
@@ -69,11 +68,10 @@ const NavItem = (props) => {
             disabled={item.disabled}
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             selected={customization.isOpen === item.id}
-            onClick={() => handleOnClick}
             target={itemTarget}
+            onClick={handleClick}
             button
             style={{ paddingLeft: level * 16 + 'px' }}
-            {...listItemProps}
         >
             <ListItemIcon className={itemIconClass}>{itemIcon}</ListItemIcon>
             <ListItemText
@@ -94,16 +92,6 @@ const NavItem = (props) => {
                     )
                 }
             />
-            {item.chip && (
-                <Chip
-                    className={item.chip.error && classes.errorChip}
-                    color={item.chip.color}
-                    variant={item.chip.variant}
-                    size={item.chip.size}
-                    label={item.chip.label}
-                    avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
-                />
-            )}
         </ListItemButton>
     );
 };

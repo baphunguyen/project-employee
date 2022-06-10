@@ -5,6 +5,8 @@ import {makeStyles} from "@mui/styles";
 
 import NavItem from '../NavItem';
 import NavCollapse from "../NavCollapse";
+import {useSelector, useDispatch} from "react-redux";
+import * as actionTypes from '@store/actions'
 
 const useStyles = makeStyles((theme) => ({
     menuCaption: {
@@ -18,12 +20,18 @@ const useStyles = makeStyles((theme) => ({
 const NavGroup = (props) => {
     const { item } = props;
     const classes = useStyles();
+    const customization = useSelector((state) => state.customization);
+    const dispatch = useDispatch();
 
     const items = item.children.map((menu) => {
         switch (menu.type) {
             case 'collapse':
                 return <NavCollapse key={menu.id} menu={menu} level={1} />;
             case 'item':
+                // dispatch({
+                //     type: actionTypes.MENU_OPEN,
+                //     isOpen: menu.id
+                // })
                 return <NavItem key={menu.id} item={menu} level={1} />;
             default:
                 return (

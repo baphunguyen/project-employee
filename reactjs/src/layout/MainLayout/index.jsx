@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {useMediaQuery, useTheme, AppBar, CssBaseline, Toolbar, Zoom } from '@mui/material';
+import {useMediaQuery, useTheme, AppBar, CssBaseline, Toolbar } from '@mui/material';
 import {makeStyles} from "@mui/styles";
 
 import { drawerWidth } from '@store/constant';
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const MainLayout = ({ children, checked }) => {
+const MainLayout = ({ children }) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
@@ -82,7 +82,7 @@ const MainLayout = ({ children, checked }) => {
                     <Header drawerOpen={drawerOpen} drawerToggle={handleDrawerToggle} />
                 </Toolbar>
             </AppBar>
-            <Sidebar drawerOpen={drawerOpen} drawerToggle={handleDrawerToggle} />
+            <Sidebar drawerOpen={true} drawerToggle={handleDrawerToggle} />
             <main className={clsx(classes.content, { [classes.contentShift]: drawerOpen })}>
                 <div className={classes.toolbar} />
                     <div className={classes.main}>

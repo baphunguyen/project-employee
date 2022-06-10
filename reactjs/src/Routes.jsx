@@ -18,12 +18,6 @@ const AuthChangePassword = lazy(() => {
   })
 });
 
-const AuthUpdateData = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import('./pages/UpdateData')), 500)
-  })
-});
-
 // const AuthChangePassword = lazy(() => import('./pages/ChangePassword'));
 
 // const AuthUpdateData = lazy(() => import('./pages/UpdateData'))
@@ -34,7 +28,6 @@ const AuthRegisterData = lazy(() => {
   })
 });
 
-// const AuthRegisterData = lazy(() => import('./pages/Register'))
 
 const Tables = lazy(() => {
     return new Promise(resolve => {
@@ -48,7 +41,6 @@ const ForgotPassword = lazy(() => {
   });
 });
 
-// const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 
 const Router = () => {
     return (
@@ -59,28 +51,21 @@ const Router = () => {
                     <Route path="/login" element={<AuthLogin />}/>
                     <Route path="/dashboard" element={
                       <PrivateLayout>
-                        <MainLayout checked={true}>
+                        <MainLayout>
                             <Tables />
                         </MainLayout>
                       </PrivateLayout>
                     }/>
                     <Route path="/changepassword" element={
                       <PrivateLayout>
-                        <MainLayout checked={true}>
+                        <MainLayout>
                           <AuthChangePassword />
-                        </MainLayout>
-                      </PrivateLayout>
-                    }/>
-                    <Route path="/updatedata" element={
-                      <PrivateLayout>
-                        <MainLayout checked={true}>
-                          <AuthUpdateData />
                         </MainLayout>
                       </PrivateLayout>
                     }/>
                     <Route path="/register" element={
                       <PrivateLayout>
-                        <MainLayout checked={true}>
+                        <MainLayout>
                           <AuthRegisterData />
                         </MainLayout>
                       </PrivateLayout>

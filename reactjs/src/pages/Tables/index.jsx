@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import { makeStyles } from '@mui/styles';
 
 import {Card, CardHeader, Divider, Grid, Pagination, Typography, Zoom} from '@mui/material';
@@ -14,10 +14,9 @@ import TableRow from '@mui/material/TableRow';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import axios from "axios";
-import CircularProgress from '@mui/material/CircularProgress';
 import {useDispatch, useSelector} from "react-redux";
 import * as actionTypes from '../../store/actions';
-import {useNavigate} from "react-router-dom";
+import UpdateData from "../UpdateData";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -48,21 +47,20 @@ const formatDate = (date) => {
 }
 
 
-export default function TableBasic() {
+function TableBasic() {
     const classes = useStyles();
     const home = useSelector(state => state.table)
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [dataUpdate, setDataUpdate] = React.useState(null);
 
     useEffect(() => {
+        console.log('renderrrrrrrrrrrrr');
         axios.get(`http://localhost:3002/user/getUser/${home.page}`)
           .then((res) => {
               dispatch({
                   type: actionTypes.SET_DATA,
                   data: res.data.user
               });
-              setIsLoading(true);
           })
           .catch(err => console.log(err));
     }, [home.page, home.isChange]);
@@ -77,6 +75,7 @@ export default function TableBasic() {
         });
     }
 
+
     function handlePagination(event, value) {
         dispatch({
             type: actionTypes.SET_CHANGE_PAGE,
@@ -84,69 +83,90 @@ export default function TableBasic() {
         });
     }
 
+    function handleDialog(row) {
+        setDataUpdate(row);
+    }
+
+    function handleCloseDialog(isChange) {
+        setDataUpdate(null);
+        if (isChange) {
+            dispatch({
+                type: actionTypes.SET_CHANGE,
+                isChange: !home.isChange
+            });
+        }
+    }
+
+    const UpdateComponent = useMemo(() => (
+      <React.Fragment>
+          {dataUpdate &&
+              <UpdateData row={dataUpdate} openUpdate={true} onClose={handleCloseDialog}/>
+          }
+      </React.Fragment>
+    ), [dataUpdate])
+
     return (
         <React.Fragment>
-            {!isLoading && <CircularProgress />}
-            {isLoading &&
-              <React.Fragment>
-                  <Zoom in={true} className={classes.trans}>
-                      <Grid container spacing={gridSpacing}>
-                          <Grid item xs={12}>
-                              <Card className={classes.themeDark}>
-                                  <CardHeader
-                                    title={
-                                        <Typography component="div" className="card-header">
-                                            Employee Table
-                                        </Typography>
-                                    }
-                                  />
-                                  <CardHeader
-                                    title={
-                                      home.data._totalPage > 1 &&
-                                      <Pagination classes={{ul: classes.paginaton}} count={home.data._totalPage} color="primary" onChange={handlePagination}/>
-                                    }
-                                  />
-                                  <Divider />
-                                  <TableContainer>
-                                      <Table className={classes.table}>
-                                          <TableHead style={{color: '#bbc0c7'}}>
-                                              <TableRow style={{color: '#bbc0c7'}}>
-                                                  <TableCell align="center">Id</TableCell>
-                                                  <TableCell>Họ và Tên</TableCell>
-                                                  <TableCell>Email</TableCell>
-                                                  <TableCell align="center">Tuổi</TableCell>
-                                                  <TableCell align="center">Giới Tính</TableCell>
-                                                  <TableCell align="center">Ngày sinh</TableCell>
-                                                  <TableCell align="center">Địa chỉ</TableCell>
-                                                  <TableCell align="center">Action</TableCell>
-                                              </TableRow>
-                                          </TableHead>
-                                          <TableBody>
-                                              {home.data.data &&
-                                                home.data.data.map((row) => (
-                                                  <TableRow key={row.id}>
-                                                      <TableCell align="center">{row.id}</TableCell>
-                                                      <TableCell>{row.fullname}</TableCell>
-                                                      <TableCell>{row.email}</TableCell>
-                                                      <TableCell align="center">{row.age}</TableCell>
-                                                      <TableCell align="center">{row.gender === 'male'? 'Nam': 'Nữ'}</TableCell>
-                                                      <TableCell align="center">{formatDate(row.dateofbirth)}</TableCell>
-                                                      <TableCell align="center">{row.address}</TableCell>
-                                                      <TableCell align="center">
-                                                          <BorderColorOutlinedIcon color="primary" onClick={() => navigate('/updatedata', {state: row})} style={{cursor: 'pointer'}}/> ||
-                                                          <DeleteForeverOutlinedIcon color="primary" onClick={() => handleClickDelete(row.id)} style={{cursor: 'pointer'}}/>
-                                                      </TableCell>
-                                                  </TableRow>
-                                                ))}
-                                          </TableBody>
-                                      </Table>
-                                  </TableContainer>
-                              </Card>
-                          </Grid>
-                      </Grid>
-                  </Zoom>
-              </React.Fragment>
-            }
+          <Zoom in={true} className={classes.trans}>
+              <Grid container spacing={gridSpacing}>
+                  <Grid item xs={12}>
+                      <Card className={classes.themeDark}>
+                          <CardHeader
+                            title={
+                                <Typography component="div" className="card-header">
+                                    Employee Table
+                                </Typography>
+                            }
+                          />
+                          <CardHeader
+                            title={
+                              home.data._totalPage > 1 &&
+                              <Pagination classes={{ul: classes.paginaton}} count={home.data._totalPage} color="primary" onChange={handlePagination}/>
+                            }
+                          />
+                          <Divider />
+                          <TableContainer>
+                              <Table className={classes.table}>
+                                  <TableHead style={{color: '#bbc0c7'}}>
+                                      <TableRow style={{color: '#bbc0c7'}}>
+                                          <TableCell align="center">Id</TableCell>
+                                          <TableCell>Họ và Tên</TableCell>
+                                          <TableCell>Email</TableCell>
+                                          <TableCell align="center">Tuổi</TableCell>
+                                          <TableCell align="center">Giới Tính</TableCell>
+                                          <TableCell align="center">Ngày sinh</TableCell>
+                                          <TableCell align="center">Địa chỉ</TableCell>
+                                          <TableCell align="center">Action</TableCell>
+                                      </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                      {home.data.data &&
+                                        home.data.data.map((row) => (
+                                          <TableRow key={row.id}>
+                                              <TableCell align="center">{row.id}</TableCell>
+                                              <TableCell>{row.fullname}</TableCell>
+                                              <TableCell>{row.email}</TableCell>
+                                              <TableCell align="center">{row.age}</TableCell>
+                                              <TableCell align="center">{row.gender === 'male'? 'Nam': 'Nữ'}</TableCell>
+                                              <TableCell align="center">{formatDate(row.dateofbirth)}</TableCell>
+                                              <TableCell align="center">{row.address}</TableCell>
+                                              <TableCell align="center">
+                                                  <BorderColorOutlinedIcon color="primary" onClick={() => handleDialog(row)} style={{cursor: 'pointer'}}/> ||
+                                                  <DeleteForeverOutlinedIcon color="primary" onClick={() => handleClickDelete(row.id)} style={{cursor: 'pointer'}}/>
+                                              </TableCell>
+                                          </TableRow>
+                                        ))}
+                                      {UpdateComponent}
+                                  </TableBody>
+                              </Table>
+                          </TableContainer>
+                      </Card>
+                  </Grid>
+              </Grid>
+          </Zoom>
+
         </React.Fragment>
     );
 }
+
+export default TableBasic;

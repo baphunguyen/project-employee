@@ -1,10 +1,12 @@
 import React from 'react';
-import {Typography, ListItem, ListItemIcon, ListItemText, Collapse, List, Chip, Avatar } from '@mui/material';
+import {Typography, ListItemButton, ListItemIcon, ListItemText, Collapse, List, Chip, Avatar } from '@mui/material';
 import {makeStyles} from "@mui/styles";
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {useSelector, useDispatch} from "react-redux";
+import * as actionTypes from '@store/actions'
 
 import NavItem from './../NavItem';
 
@@ -23,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.subMenuCaption,
     },
     listItemNoBack: {
-        backgroundColor: 'transparent !important',
         paddingTop: '8px',
         paddingBottom: '8px',
         borderRadius: '5px',
@@ -37,14 +38,17 @@ const useStyles = makeStyles((theme) => ({
 
 const NavCollapse = (props) => {
     const classes = useStyles();
-
+    const customization = useSelector((state) => state.customization);
+    const dispatch = useDispatch();
     const { menu, level } = props;
     const [open, setOpen] = React.useState(false);
-    const [selected, setSelected] = React.useState(null);
 
     const handleClick = () => {
         setOpen(!open);
-        setSelected(!selected ? menu.id : null);
+        dispatch({
+          type: actionTypes.MENU_OPEN,
+          isOpen: menu.id
+        })
     };
 
     const menus = menu.children.map((item) => {
@@ -68,15 +72,12 @@ const NavCollapse = (props) => {
     ) : (
       <ArrowForwardIcon fontSize={level > 0 ? 'inherit' : 'default'} />
     );
-
-    let menuIconClass = !menu.icon ? classes.listIcon : classes.menuIcon;
-
+    let menuIconClass = !menu.icon ? classes.listIcon : '';
     return (
       <React.Fragment>
-          <ListItem
+          <ListItemButton
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
-            selected={selected === menu.id}
-            button
+            selected={customization.isOpen === menu.id}
             onClick={handleClick}
             style={{ paddingLeft: level * 16 + 'px' }}
           >
@@ -84,7 +85,7 @@ const NavCollapse = (props) => {
               <ListItemText
                 primary={
                     <Typography
-                      variant={selected === menu.id ? 'subtitle1' : 'body1'}
+                      variant={customization.isOpen === menu.id ? 'subtitle1' : 'body1'}
                       color="inherit"
                     >
                         {menu.title}
@@ -98,18 +99,8 @@ const NavCollapse = (props) => {
                   )
                 }
               />
-              {menu.chip && (
-                <Chip
-                  className={menu.chip.error && classes.errorChip}
-                  color={menu.chip.color}
-                  variant={menu.chip.variant}
-                  size={menu.chip.size}
-                  label={menu.chip.label}
-                  avatar={menu.chip.avatar && <Avatar>{menu.chip.avatar}</Avatar>}
-                />
-              )}
               {open ? <ExpandLess className={classes.collapseIcon} /> : <ExpandMore className={classes.collapseIcon} />}
-          </ListItem>
+          </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                   {menus}
