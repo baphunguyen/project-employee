@@ -8,18 +8,14 @@ import axios from "axios";
 
 
 function QRCode() {
-  const [imgText, setImgText] = React.useState('');
+  const [qrcode, setQrCode] = React.useState('');
   const ref = React.createRef();
   const formik = useFormik({
     initialValues: {
       textQR: ''
     },
     onSubmit: (values) => {
-      axios.post('http://localhost:3002/qrcode/create', values)
-        .then((res) => {
-          setImgText(res.data);
-        })
-        .catch(err => console.log(err));
+      setQrCode(`http://api.qrserver.com/v1/create-qr-code/?data=${values.textQR}&size=50x50&bgcolor=while`);
     }
   })
 
@@ -43,14 +39,14 @@ function QRCode() {
             </form>
           </Grid>
           <Grid item xs={12}>
-            {imgText &&
+            {qrcode &&
               <div ref={ref}>
-                <img src={imgText} style={{width: '300px'}}/>
+                <img src={qrcode} style={{width: '50px'}}/>
               </div>
             }
           </Grid>
           <Grid item xs={12}>
-            {imgText &&
+            {qrcode &&
               <Pdf targetRef={ref} filename="QRCODE.pdf">
                 {({ toPdf }) => <Button onClick={toPdf} variant='contained'>Generate Pdf</Button>}
               </Pdf>
