@@ -82,7 +82,7 @@ const MainLayout = ({ children }) => {
                     <Header drawerOpen={drawerOpen} drawerToggle={handleDrawerToggle} />
                 </Toolbar>
             </AppBar>
-            <Sidebar drawerOpen={true} drawerToggle={handleDrawerToggle} />
+            <Sidebar drawerOpen={drawerOpen} drawerToggle={handleDrawerToggle} />
             <main className={clsx(classes.content, { [classes.contentShift]: drawerOpen })}>
                 <div className={classes.toolbar} />
                     <div className={classes.main}>

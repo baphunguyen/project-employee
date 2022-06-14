@@ -54,7 +54,6 @@ function TableBasic() {
     const [dataUpdate, setDataUpdate] = React.useState(null);
 
     useEffect(() => {
-        console.log('renderrrrrrrrrrrrr');
         axios.get(`http://localhost:3002/user/getUser/${home.page}`)
           .then((res) => {
               dispatch({

@@ -35,6 +35,12 @@ const Tables = lazy(() => {
     });
 });
 
+const QRCode = lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import('./pages/QRCode')), 500)
+  });
+});
+
 const ForgotPassword = lazy(() => {
   return new Promise(resolve => {
     setTimeout(() => resolve(import('./pages/ForgotPassword')), 500)
@@ -67,6 +73,13 @@ const Router = () => {
                       <PrivateLayout>
                         <MainLayout>
                           <AuthRegisterData />
+                        </MainLayout>
+                      </PrivateLayout>
+                    }/>
+                    <Route path="/qrcode" element={
+                      <PrivateLayout>
+                        <MainLayout>
+                          <QRCode />
                         </MainLayout>
                       </PrivateLayout>
                     }/>

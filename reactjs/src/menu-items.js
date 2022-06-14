@@ -2,12 +2,14 @@ import NavigationOutlinedIcon from '@mui/icons-material/NavigationOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 
 const icons = {
     NavigationOutlinedIcon: NavigationOutlinedIcon,
     HomeOutlinedIcon: HomeOutlinedIcon,
     AddCircleOutlineOutlinedIcon: AddCircleOutlineOutlinedIcon,
-    MenuIcon: MenuIcon
+    MenuIcon: MenuIcon,
+    QrCode2Icon: QrCode2Icon
 };
 
 export default {
@@ -77,7 +79,14 @@ export default {
                             url: '#',
                         },
                     ],
-                }
+                },
+                {
+                    id: 'qrcode',
+                    title: 'Create QR Code',
+                    type: 'item',
+                    icon: icons['QrCode2Icon'],
+                    url: '/qrcode',
+                },
             ],
         },
     ],
