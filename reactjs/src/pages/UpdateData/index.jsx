@@ -77,6 +77,7 @@ const BootstrapDialogTitle = (props) => {
 };
 
 const UpdateData = ({row, openUpdate, onClose}) => {
+  if (row == null) return;
   const classes = useStyles();
   const [open, setOpen] = React.useState(openUpdate);
   const [message, setMessage] = React.useState('');
@@ -103,7 +104,6 @@ const UpdateData = ({row, openUpdate, onClose}) => {
       gender: Yup.string().oneOf(['male', 'female']).required()
     }),
     onSubmit: (values) => {
-      console.log(values);
       const dataChange = values;
       delete dataChange.password;
       delete dataChange.email;
@@ -237,4 +237,4 @@ const UpdateData = ({row, openUpdate, onClose}) => {
   );
 };
 
-export default UpdateData;
+export default React.memo(UpdateData);

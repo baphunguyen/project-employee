@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import { makeStyles } from '@mui/styles';
 
 import {Card, CardHeader, Divider, Grid, Pagination, Typography, Zoom} from '@mui/material';
@@ -51,7 +51,6 @@ function TableBasic() {
     const classes = useStyles();
     const home = useSelector(state => state.table)
     const dispatch = useDispatch();
-    const [dataUpdate, setDataUpdate] = React.useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:3002/user/getUser/${home.page}`)
@@ -65,7 +64,7 @@ function TableBasic() {
     }, [home.page, home.isChange]);
 
     const handleClickDelete = (id) => {
-        axios.delete(`http://localhost:3002/user/delete/${id}`,)
+        axios.delete(`http://localhost:3002/user/delete/${id}`)
           .then((response) => alert(response.data.message))
           .catch((error) => console.log(error));
         dispatch({
@@ -83,26 +82,24 @@ function TableBasic() {
     }
 
     function handleDialog(row) {
-        setDataUpdate(row);
+        dispatch({
+            type: actionTypes.SET_DATA_UPDATE,
+            dataUpdate: row
+        });
     }
 
-    function handleCloseDialog(isChange) {
-        setDataUpdate(null);
+    const handleCloseDialog = useCallback((isChange) => {
+        dispatch({
+            type: actionTypes.SET_DATA_UPDATE,
+            dataUpdate: null
+        });
         if (isChange) {
             dispatch({
                 type: actionTypes.SET_CHANGE,
                 isChange: !home.isChange
             });
         }
-    }
-
-    const UpdateComponent = useMemo(() => (
-      <React.Fragment>
-          {dataUpdate &&
-              <UpdateData row={dataUpdate} openUpdate={true} onClose={handleCloseDialog}/>
-          }
-      </React.Fragment>
-    ), [dataUpdate])
+    }, [])
 
     return (
         <React.Fragment>
@@ -155,7 +152,7 @@ function TableBasic() {
                                               </TableCell>
                                           </TableRow>
                                         ))}
-                                      {UpdateComponent}
+                                      <UpdateData row={home.dataUpdate} openUpdate={true} onClose={handleCloseDialog}/>
                                   </TableBody>
                               </Table>
                           </TableContainer>
@@ -168,4 +165,4 @@ function TableBasic() {
     );
 }
 
-export default TableBasic;
+export default React.memo(TableBasic);

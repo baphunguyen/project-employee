@@ -4,7 +4,6 @@ import {Button, Grid, TextField, Zoom} from '@mui/material';
 import Pdf from "react-to-pdf";
 import { gridSpacing } from '@store/constant';
 import {useFormik} from "formik";
-import axios from "axios";
 
 
 function QRCode() {
@@ -15,7 +14,7 @@ function QRCode() {
       textQR: ''
     },
     onSubmit: (values) => {
-      setQrCode(`http://api.qrserver.com/v1/create-qr-code/?data=${values.textQR}&size=50x50&bgcolor=while`);
+      setQrCode(`http://api.qrserver.com/v1/create-qr-code/?data=${values.textQR}&size=50x50`);
     }
   })
 
@@ -41,7 +40,7 @@ function QRCode() {
           <Grid item xs={12}>
             {qrcode &&
               <div ref={ref}>
-                <img src={qrcode} style={{width: '50px'}}/>
+                <img src={qrcode}/>
               </div>
             }
           </Grid>
@@ -59,4 +58,4 @@ function QRCode() {
   );
 }
 
-export default QRCode;
+export default React.memo(QRCode);

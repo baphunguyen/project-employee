@@ -157,4 +157,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default React.memo(ChangePassword);
